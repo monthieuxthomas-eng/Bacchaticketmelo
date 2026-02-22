@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Paiement Stripe - Baccha Festival</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="bg-overlay"></div>
+
+    <main class="container">
+      <header class="card hero">
+        <h1>Paiement du ticket</h1>
+        <p>Redirection sécurisée vers Stripe Checkout.</p>
+      </header>
+
+      <section class="card" id="paymentSection">
+        <h2>Récapitulatif</h2>
+        <div class="ticket">
+          <div class="ticket-row">
+            <span>Prénom</span>
+            <strong id="payFirstName">-</strong>
+          </div>
+          <div class="ticket-row">
+            <span>Nom</span>
+            <strong id="payLastName">-</strong>
+          </div>
+          <div class="ticket-row">
+            <span>Adresse wallet</span>
+            <strong id="payWallet">-</strong>
+          </div>
+          <div class="ticket-row">
+            <span>Email</span>
+            <strong id="payEmail">-</strong>
+          </div>
+          <div class="ticket-row">
+            <span>Type</span>
+            <strong id="payType">-</strong>
+          </div>
+          <div class="ticket-row">
+            <span>Montant</span>
+            <strong id="payAmount">-</strong>
+          </div>
+        </div>
+
+        <p class="helper-text">Tu vas saisir ta carte sur la page Stripe officielle après redirection.</p>
+
+        <div class="download-actions">
+          <button id="confirmPayBtn" class="btn btn-accent">Confirmer le paiement</button>
+          <a href="index.html" class="btn btn-secondary">Annuler</a>
+        </div>
+      </section>
+
+      <p id="message" class="message"></p>
+    </main>
+
+    <script src="stripe.js"></script>
+    <script src="payment.js"></script>
+  </body>
+</html>

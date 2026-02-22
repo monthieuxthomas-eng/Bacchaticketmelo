@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Baccha Festival - SBT Ticket</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="bg-overlay"></div>
+
+    <main class="container">
+      <header class="card hero">
+        <h1>Baccha Festival</h1>
+        <p>Génère ton ticket Soulbound Token (SBT) non transférable.</p>
+        <label for="firstNameInput" class="field-label">Prénom (obligatoire)</label>
+        <input
+          id="firstNameInput"
+          class="field-input"
+          type="text"
+          placeholder="Prénom"
+          autocomplete="given-name"
+        />
+        <label for="lastNameInput" class="field-label">Nom (obligatoire)</label>
+        <input
+          id="lastNameInput"
+          class="field-input"
+          type="text"
+          placeholder="Nom"
+          autocomplete="family-name"
+        />
+        <label for="emailInput" class="field-label">Adresse email (obligatoire)</label>
+        <input
+          id="emailInput"
+          class="field-input"
+          type="email"
+          placeholder="exemple@domaine.com"
+          autocomplete="email"
+        />
+        <button id="connectBtn" class="btn btn-primary">Se connecter avec Dynamic</button>
+        <p id="walletStatus" class="status">Wallet non connecté</p>
+      </header>
+
+      <section class="card" id="mintSection">
+        <h2>Mint du ticket</h2>
+        <p>Plusieurs tickets possibles par email. Tous les billets sont émis par le wallet officiel Baccha Festival.</p>
+        <label for="ticketTypeSelect" class="field-label">Type de ticket</label>
+        <select id="ticketTypeSelect" class="field-input">
+          <option value="normal">Normal - 1,00 €</option>
+          <option value="vip">VIP - 110,00 €</option>
+        </select>
+        <p class="status">Tarifs : Normal = 1,00 € / VIP = 110,00 €</p>
+        <button id="payBtn" class="btn btn-secondary" disabled>Payer le ticket (Stripe)</button>
+        <p id="paymentStatus" class="status">Paiement non effectué</p>
+        <button id="mintBtn" class="btn btn-accent" disabled>Mint mon ticket SBT</button>
+      </section>
+
+      <section class="card hidden" id="ticketSection">
+        <h2>Mon ticket Baccha Festival</h2>
+        <div class="ticket">
+          <div class="ticket-row">
+            <span>Prénom</span>
+            <strong id="ticketFirstName">-</strong>
+          </div>
+          <div class="ticket-row">
+            <span>Nom</span>
+            <strong id="ticketLastName">-</strong>
+          </div>
+          <div class="ticket-row">
+            <span>Email</span>
+            <strong id="ticketEmail">-</strong>
+          </div>
+          <div class="ticket-row">
+            <span>ID Ticket</span>
+            <strong id="ticketId">-</strong>
+          </div>
+          <div class="ticket-row">
+            <span>Type</span>
+            <strong id="ticketType">-</strong>
+          </div>
+          <div class="ticket-row">
+            <span>Adresse wallet émetteur</span>
+            <strong id="ticketWallet">-</strong>
+          </div>
+          <div class="ticket-row">
+            <span>Event</span>
+            <strong id="ticketEvent">Baccha Festival</strong>
+          </div>
+        </div>
+
+        <div class="qr-block">
+          <h3>QR Code du ticket</h3>
+          <div id="qrcode"></div>
+        </div>
+
+        <div class="ticket-actions">
+          <a class="btn btn-secondary" href="ticket.html">Voir ma page ticket</a>
+        </div>
+      </section>
+
+      <p id="message" class="message"></p>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="dynamic.js"></script>
+    <script src="stripe.js"></script>
+    <script src="qr.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

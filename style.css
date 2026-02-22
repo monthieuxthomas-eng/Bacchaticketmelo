@@ -1,0 +1,246 @@
+:root {
+  --bg-1: #190b2a;
+  --bg-2: #2a0f3d;
+  --card: rgba(255, 255, 255, 0.08);
+  --card-border: rgba(255, 255, 255, 0.16);
+  --text: #f6f5ff;
+  --muted: #d4cdea;
+  --primary: #7a5cff;
+  --accent: #00d6a2;
+  --danger: #ff5c8a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Inter, Segoe UI, Arial, sans-serif;
+  color: var(--text);
+  background: radial-gradient(circle at top right, #3f165f 0%, var(--bg-1) 35%, var(--bg-2) 100%);
+  position: relative;
+  overflow-x: hidden;
+}
+
+.bg-overlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(130deg, rgba(122, 92, 255, 0.2), rgba(0, 214, 162, 0.07));
+  pointer-events: none;
+}
+
+.container {
+  width: min(920px, 92vw);
+  margin: 32px auto 48px;
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 18px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 18px;
+  padding: 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
+  animation: rise 0.35s ease;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: clamp(1.8rem, 4.2vw, 2.8rem);
+}
+
+.hero p {
+  color: var(--muted);
+}
+
+.status {
+  margin-top: 12px;
+  font-size: 0.95rem;
+  color: #ffe6a6;
+}
+
+.field-label {
+  display: inline-block;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.field-input {
+  width: min(420px, 100%);
+  border-radius: 12px;
+  border: 1px solid var(--card-border);
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--text);
+  padding: 11px 12px;
+  margin-bottom: 12px;
+}
+
+.field-input::placeholder {
+  color: #bfb8d7;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 18px;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.18s ease, filter 0.18s ease, opacity 0.18s ease;
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: linear-gradient(100deg, #8d71ff, var(--primary));
+}
+
+.btn-accent {
+  background: linear-gradient(100deg, #00e4ad, var(--accent));
+}
+
+.btn-danger {
+  background: linear-gradient(100deg, #ff7ca5, var(--danger));
+}
+
+.btn-secondary {
+  background: linear-gradient(100deg, #5f6dff, #3a4ed9);
+}
+
+.ticket {
+  margin-top: 8px;
+  border: 1px dashed rgba(255, 255, 255, 0.35);
+  border-radius: 14px;
+  padding: 14px;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.ticket-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ticket-row:last-child {
+  border-bottom: none;
+}
+
+.ticket-row span {
+  color: var(--muted);
+}
+
+.ticket-row strong {
+  text-align: right;
+  word-break: break-all;
+}
+
+.qr-block {
+  margin-top: 16px;
+}
+
+.ticket-actions {
+  margin-top: 14px;
+  margin-bottom: 14px;
+}
+
+#qrcode {
+  width: 200px;
+  min-height: 200px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+.message {
+  margin: 4px 2px;
+  min-height: 20px;
+  color: #fff6c4;
+  font-weight: 600;
+}
+
+.download-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.helper-text {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.payment-form-grid {
+  margin-top: 10px;
+}
+
+.payment-inline-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+@media (max-width: 620px) {
+  .container {
+    margin-top: 18px;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  .ticket-row {
+    flex-direction: column;
+  }
+
+  .payment-inline-row {
+    grid-template-columns: 1fr;
+  }
+
+  #qrcode {
+    width: 170px;
+    min-height: 170px;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
