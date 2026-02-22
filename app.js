@@ -29,6 +29,23 @@ function formatTicketType(type) {
   return type === "vip" ? "VIP" : "Normal";
 }
 
+function isValidEmail(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((value || "").trim());
+}
+
+function getIdentityFromInputs() {
+  return {
+    firstName: (firstNameInput.value || "").trim(),
+    lastName: (lastNameInput.value || "").trim(),
+    email: (emailInput.value || "").trim().toLowerCase()
+  };
+}
+
+function isIdentityInputValid() {
+  const identity = getIdentityFromInputs();
+  return Boolean(identity.firstName && identity.lastName && isValidEmail(identity.email));
+}
+
 function setMessage(text, isError = false) {
   messageEl.textContent = text;
   messageEl.style.color = isError ? "#ffd0d8" : "#fff6c4";
@@ -96,11 +113,12 @@ function renderTicket(ticket) {
 }
 
 function updateButtonsState() {
-  const isConnected = Boolean(window.CURRENT_WALLET);
+  const isConnected = Boolean(window.CURRENT_EMAIL);
   const selectedType = getSelectedTicketType();
   const hasPaid = Boolean(window.CURRENT_EMAIL && hasPaidTicket(window.CURRENT_EMAIL, selectedType));
+  const canStartPayment = isIdentityInputValid();
 
-  payBtn.disabled = !isConnected;
+  payBtn.disabled = !canStartPayment;
   mintBtn.disabled = !isConnected || !hasPaid;
 }
 
@@ -114,13 +132,11 @@ async function refreshUI() {
 
 async function onConnect() {
   try {
-    const firstName = firstNameInput.value.trim();
-    const lastName = lastNameInput.value.trim();
-    const email = emailInput.value.trim();
+    const { firstName, lastName, email } = getIdentityFromInputs();
     if (!firstName || !lastName) {
       throw new Error("Nom et prénom obligatoires pour se connecter.");
     }
-    if (!email) {
+    if (!email || !isValidEmail(email)) {
       throw new Error("Adresse email obligatoire pour se connecter avec Dynamic.");
     }
 
@@ -135,15 +151,20 @@ async function onConnect() {
 
 async function onPay() {
   try {
-    if (!window.CURRENT_EMAIL) {
-      throw new Error("Connecte-toi d'abord avant de payer.");
+    const { firstName, lastName, email } = getIdentityFromInputs();
+    if (!firstName || !lastName || !isValidEmail(email)) {
+      throw new Error("Renseigne un prénom, un nom et un email valide avant de payer.");
     }
+
+    // Assure une session Dynamic à jour avec les infos client saisies.
+    await connectWallet(email, firstName, lastName);
+    await refreshUI();
 
     const ticketType = getSelectedTicketType();
     const pendingPayment = {
-      email: window.CURRENT_EMAIL,
-      firstName: window.CURRENT_FIRST_NAME,
-      lastName: window.CURRENT_LAST_NAME,
+      email,
+      firstName,
+      lastName,
       walletAddress: window.CURRENT_WALLET,
       ticketType,
       createdAt: new Date().toISOString()
@@ -188,6 +209,13 @@ function initApp() {
   connectBtn.addEventListener("click", onConnect);
   payBtn.addEventListener("click", onPay);
   mintBtn.addEventListener("click", onMint);
+
+  [firstNameInput, lastNameInput, emailInput].forEach((inputEl) => {
+    inputEl.addEventListener("input", () => {
+      updateButtonsState();
+    });
+  });
+
   ticketTypeSelect.addEventListener("change", () => {
     setPaymentStatus();
     updateButtonsState();
