@@ -1,14 +1,16 @@
 {
+  "version": 2,
   "functions": {
     "api/*.js": {
       "runtime": "nodejs20.x"
     }
   },
-  "rewrites": [
-    { "source": "/", "destination": "/index.html" },
-    { "source": "/ticket", "destination": "/ticket.html" },
-    { "source": "/payment", "destination": "/payment.html" },
-    { "source": "/payment-success", "destination": "/payment-success.html" }
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "^/$", "dest": "/index.html" },
+    { "src": "^/ticket$", "dest": "/ticket.html" },
+    { "src": "^/payment$", "dest": "/payment.html" },
+    { "src": "^/payment-success$", "dest": "/payment-success.html" }
   ],
   "headers": [
     {
