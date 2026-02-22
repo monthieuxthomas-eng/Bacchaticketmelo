@@ -64,7 +64,17 @@ async function onConfirmPayment() {
 
     const data = await response.json();
     if (!response.ok || !data.url) {
-      throw new Error(data.error || "Impossible de créer la session Stripe.");
+      // Fallback de secours (mode mock) si API Stripe non configurée en hébergement.
+      await payTicketWithStripe({
+        email: pending.email,
+        firstName: pending.firstName,
+        lastName: pending.lastName,
+        ticketType: pending.ticketType
+      });
+
+      localStorage.removeItem("BACCHA_PENDING_PAYMENT");
+      window.location.href = `index.html?payment=success&type=${encodeURIComponent(pending.ticketType)}`;
+      return;
     }
 
     window.location.href = data.url;

@@ -3,5 +3,19 @@
     "api/*.js": {
       "runtime": "nodejs20.x"
     }
-  }
+  },
+  "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/ticket", "destination": "/ticket.html" },
+    { "source": "/payment", "destination": "/payment.html" },
+    { "source": "/payment-success", "destination": "/payment-success.html" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache" }
+      ]
+    }
+  ]
 }
